@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Frontend v2.0</title>
+</head>
+<body>
+    <input type="text" id="text">
+    <button onclick="send()">Отправить</button>
+    <br><br>
+
+    <button onclick="get()">Получить данные</button>
+    <br>
+    <textarea id="out" rows="5"></textarea>
+
+    <script>
+        function send() {
+            let val = document.getElementById('text').value;
+            fetch('/api/data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: val })
+            }).then(() => {
+                document.getElementById('text').value = '';
+            });
+        }
+
+        function get() {
+            fetch('/api/data')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('out').value = data.result;
+            });
+        }
+    </script>
+</body>
+</html>
