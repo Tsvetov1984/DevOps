@@ -1,0 +1,6 @@
+---
+- name: Развертывание проекта DevOps (Лабораторная 3)
+  hosts: webservers
+  become: yes
+  roles:
+    - role1

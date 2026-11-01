@@ -1,0 +1,34 @@
+---
+# 3.2.1 Установка docker и docker-compose
+- name: Установка системных зависимостей, Git и Docker
+  apt:
+    name:
+      - git
+      - docker.io
+      - docker-compose-v2
+    state: present
+    update_cache: yes
+  tags: install
+
+# 3.2.2 Клонирование репозитория DevOps
+- name: Клонирование репозитория с GitHub на удаленную ноду
+  git:
+    repo: 'https://github.com/Tsvetov1984/DevOps.git'
+    dest: /opt/devops_project
+    version: main
+    force: yes
+  tags: deploy
+
+# 3.2.3 Запуск микросервисов
+- name: Запуск контейнеров через docker-compose
+  command: docker compose up -d --build
+  args:
+    chdir: /opt/devops_project
+  tags: start
+
+# 3.2.4 Остановка микросервисов
+- name: Остановка контейнеров через docker-compose
+  command: docker compose down
+  args:
+    chdir: /opt/devops_project
+  tags: stop
